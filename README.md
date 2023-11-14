@@ -22,18 +22,30 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd black-bespoke-frontend
+  cd blackbespoke-backend
 ```
 
-Install dependencies
+Create a python virtual environment
 
 ```bash
-  npm install
+  python -m venv ENV
 ```
 
-Start the server
+Activate the virtual environment
 
 ```bash
-  npm run dev
+  .\ENV\Scripts\activate
+```
+
+Install the packages
+
+```bash
+  python -m pip install -r .\requirements.txt
+```
+
+Run the server
+
+```bash
+  python .\manage.py runserver
 ```
 
