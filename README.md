@@ -11,12 +11,12 @@ This repo is for the backend of the project Black Bespoke and contains two branc
 
 ## Run Locally
 
-> Before running locally, ensure you've ```git```, ```npm``` and ```node``` installed globally on your computer.
+> Before running locally, ensure you've ```git```, ```python``` and ```pip``` installed globally on your computer.
 
 Clone the project
 
 ```bash
-  git clone https://github.com/ArmaanChaand/black-bespoke-frontend.git
+  git clone https://github.com/ArmaanChaand/blackbespoke-backend.git
 ```
 
 Go to the project directory
