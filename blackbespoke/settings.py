@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "api.apps.ApiConfig",
     "suit.apps.SuitConfig",
     "home.apps.HomeConfig",
+    "consult.apps.ConsultConfig",
 ]
 
 MIDDLEWARE = [

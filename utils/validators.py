@@ -1,11 +1,8 @@
-from django.core.validators import FileExtensionValidator
-
+from django.core.exceptions import ValidationError
 def only_svg_png_images(value):
-    valid_extensions = ['.svg', '.png']
+    # Get the file name
+    file_name = value.name.lower()
 
-    validator = FileExtensionValidator(
-        allowed_extensions=valid_extensions,
-        message='Only SVG and PNG files are allowed.'
-    )
-
-    validator(value)
+    # Check if the file has a valid extension
+    if not file_name.endswith(('.svg', '.png')):
+        raise ValidationError('Only SVG and PNG files are allowed.')

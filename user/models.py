@@ -8,6 +8,10 @@ class User(AbstractUser):
 
 
 class Customer(models.Model):
+    is_active = models.BooleanField(default=True)
     full_name = models.CharField(max_length=100, null=False, blank=False)
     phone     = PhoneNumberField(null=False, blank=False)
     email     = models.EmailField(null=False, blank=False)
+
+    def __str__(self) -> str:
+        return self.email
