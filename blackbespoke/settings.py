@@ -147,7 +147,8 @@ AUTH_USER_MODEL = "user.User"
 
 """DJANGO CORS HEADERS"""
 CORS_ALLOWED_ORIGINS = [
-    
+    "https://blackbespoke.netlify.app",
+    "http://localhost:5173"
 ]
 CORS_URLS_REGEX = r"^/api/.*$"
 
