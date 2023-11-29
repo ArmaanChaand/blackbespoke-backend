@@ -1,2 +1,3 @@
 ENV
 credentials.txt
+*.ps1

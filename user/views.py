@@ -34,3 +34,17 @@ def customer_create(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def customer_update(request, customer_id):
+    try:
+        customer = Customer.objects.get(pk=customer_id)
+        if request.method == 'POST':
+            serializer = CustomerSerializer(data=request.data, instance=customer)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Customer.DoesNotExist:
+        return Response({'error': 'Customer not found'}, status=status.HTTP_404_NOT_FOUND)
