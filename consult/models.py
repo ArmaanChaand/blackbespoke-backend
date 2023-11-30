@@ -20,15 +20,32 @@ class Appointment(models.Model):
         default=appnt_types.CHOICE_FOUR
     )
     is_active = models.BooleanField(default=True)
-    date = models.DateField(null=False, blank=False)
-    time = models.TimeField(null=False, blank=False)
+    date = models.DateField(null=True, blank=True)
+    time = models.TimeField(null=True, blank=True)
     customer = models.ForeignKey(to='user.Customer', on_delete=models.SET_NULL, null=True, blank=True)
-    customer_address = models.ForeignKey(to='home.AddressDetail', on_delete=models.SET_NULL, null=True, blank=True)
     identifier = models.CharField(max_length=100, null=False, blank=False, unique=True, editable=False, default=generate_short_uuid,
                             error_messages={
                                      "unique": "Appointment with this identifier already exists."
                                     })
     
+    @property
+    def customer_address(self):
+        # Check if the appointment has a related customer
+        if self.customer:
+            # Access the 'address' field of the related Customer model
+            return self.customer.address.id
+        else:
+            return None  # or any default value you prefer
+
+    @property
+    def customer_city(self):
+        # Check if the appointment has a related customer
+        if self.customer:
+            # Access the 'address' field of the related Customer model
+            return self.customer.address.city.id
+        else:
+            return None  # or any default value you prefer
+
 
     def __str__(self) -> str:
         return f"{self.appnt_type} • {self.customer} • {self.date}"

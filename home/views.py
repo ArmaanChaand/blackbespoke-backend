@@ -13,6 +13,16 @@ def city_read(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
+def city_read_one(request, city_id):
+    if request.method == 'GET':
+        city = City.objects.filter(is_active=True, id=city_id).first()
+        if(city is not None):
+            serializer = CitySerializer(city, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"error" : "City not found"}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
 def address_read(request):
     if request.method == 'GET':
         addresses = AddressDetail.objects.filter(is_active=True)

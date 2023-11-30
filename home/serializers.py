@@ -4,7 +4,7 @@ from .models import City, AddressDetail
 class CitySerializer(serializers.ModelSerializer):
     class Meta:
         model  = City
-        fields = ['id', 'icon', 'name', 'code']
+        fields = ['id', 'icon', 'name', 'code', 'state']
 
 class AddressDetailSerializer(serializers.ModelSerializer):
     class Meta:
