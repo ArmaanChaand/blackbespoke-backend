@@ -22,11 +22,13 @@ class Appointment(models.Model):
     is_active = models.BooleanField(default=True)
     date = models.DateField(null=True, blank=True)
     time = models.TimeField(null=True, blank=True)
-    customer = models.ForeignKey(to='user.Customer', on_delete=models.SET_NULL, null=True, blank=True)
+    suit = models.OneToOneField(to='suit.SuitBuild', on_delete=models.SET_NULL, null=True, blank=True)
+    customer = models.OneToOneField(to='user.Customer', on_delete=models.SET_NULL, null=True, blank=True)
     identifier = models.CharField(max_length=100, null=False, blank=False, unique=True, editable=False, default=generate_short_uuid,
                             error_messages={
                                      "unique": "Appointment with this identifier already exists."
                                     })
+    
     
     @property
     def customer_address(self):
