@@ -22,3 +22,9 @@ class AddressDetail(models.Model):
     def __str__(self) -> str:
         return f"{self.address[:10]} • {self.customer} • {self.city}" 
 
+class Pictures(models.Model):
+    description = models.CharField(max_length=100, null=True, blank=True)
+    picture = models.ImageField(upload_to='images/pictures/')
+
+    def __str__(self) -> str:
+        return self.description

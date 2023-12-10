@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .models import City, AddressDetail
-from .serializers import CitySerializer, AddressDetailSerializer
+from .models import City, AddressDetail, Pictures
+from .serializers import CitySerializer, AddressDetailSerializer, PictureSerializer
 from user.models import Customer
 
 @api_view(['GET'])
@@ -68,3 +68,12 @@ def address_update(request, pk):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(http_method_names=["GET"])
+def read_pic_one(request, pic_id):
+    try:
+        pic = Pictures.objects.get(id=pic_id)
+        serializer = PictureSerializer(pic)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except:
+        return Response({"error": "Picture not found"}, status=status.HTTP_404_NOT_FOUND)
