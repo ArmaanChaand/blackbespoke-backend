@@ -16,7 +16,7 @@ class SuitPartDetail(models.Model):
     price       = models.DecimalField(decimal_places=2, max_digits=9, null=True, blank=True)
     composition = models.CharField(max_length=100, null=True, blank=True)
     season      = models.CharField(max_length=100, null=True, blank=True)
-    fitness     = models.CharField(max_length=100, null=True, blank=True)
+    fineness     = models.CharField(max_length=100, null=True, blank=True)
     weight      = models.CharField(max_length=100, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
@@ -38,25 +38,55 @@ class BlazerPattern(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     icon = models.FileField(upload_to='images/suit/', validators=[only_svg_png_images])
-    pictures = models.ManyToManyField(to='home.Pictures', related_name='its_pics', blank=True)
+    pictures = models.ManyToManyField(to='home.Pictures', related_name='blazer_pics', blank=True)
     detail = models.ForeignKey(to=SuitPartDetail, on_delete=models.SET_NULL, null=True, blank=True)
     
     def __str__(self) -> str:
         return self.name
     
 
-class WaistcoatPattern(BlazerPattern):
-    pass
-class WaistcoatLapel(BlazerPattern):
-    pass
-class PantStyle(BlazerPattern):
-    pass
-class ShirtColor(models.Model):
+class WaistcoatPattern(models.Model):
+    is_active   = models.BooleanField(default=True)
     name = models.CharField(max_length=100, null=True, blank=True)
-    icon = models.ImageField(upload_to='images/suit/', null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    icon = models.FileField(upload_to='images/suit/', validators=[only_svg_png_images])
+    pictures = models.ManyToManyField(to='home.Pictures', related_name='wcoat_patt_pics', blank=True)
+    detail = models.ForeignKey(to=SuitPartDetail, on_delete=models.SET_NULL, null=True, blank=True)
+    
+    def __str__(self) -> str:
+        return self.name
+
+class WaistcoatLapel(models.Model):
+    is_active   = models.BooleanField(default=True)
+    name = models.CharField(max_length=100, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    icon = models.FileField(upload_to='images/suit/', validators=[only_svg_png_images])
+    pictures = models.ManyToManyField(to='home.Pictures', related_name='wcoat_lapel_pics', blank=True)
+    detail = models.ForeignKey(to=SuitPartDetail, on_delete=models.SET_NULL, null=True, blank=True)
+    
+    def __str__(self) -> str:
+        return self.name
+
+class PantStyle(models.Model):
+    is_active   = models.BooleanField(default=True)
+    name = models.CharField(max_length=100, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    icon = models.FileField(upload_to='images/suit/', validators=[only_svg_png_images])
+    pictures = models.ManyToManyField(to='home.Pictures', related_name='pant_pics', blank=True)
+    detail = models.ForeignKey(to=SuitPartDetail, on_delete=models.SET_NULL, null=True, blank=True)
+    
+    def __str__(self) -> str:
+        return self.name
+
+class ShirtColor(models.Model):
+    # is_active   = models.BooleanField(default=True)
+    name = models.CharField(max_length=100, null=True, blank=True)
+    color = models.CharField(max_length=50, null=True, blank=True)
     pictures = models.ManyToManyField(to='home.Pictures', related_name='shirt_pics', blank=True)
     detail = models.ForeignKey(to=SuitPartDetail, on_delete=models.SET_NULL, null=True, blank=True)
     
+    def __str__(self) -> str:
+        return f"{self.name} • {self.color}"
 
 
 class SuitBuild(models.Model):
@@ -68,5 +98,3 @@ class SuitBuild(models.Model):
     waistcoat_lapel   = models.ForeignKey(to=WaistcoatLapel, on_delete=models.SET_NULL, null=True, blank=True, related_name='waistcoat_lapel_suit')
     pant_style        = models.ForeignKey(to=PantStyle, on_delete=models.SET_NULL, null=True, blank=True, related_name='pant_style_suit')
     shirt_color       = models.ForeignKey(to=ShirtColor, on_delete=models.SET_NULL, null=True, blank=True, related_name='shirt_color_suit')
-
-    

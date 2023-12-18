@@ -29,12 +29,12 @@ class PantStyleSerializer(serializers.ModelSerializer):
 class ShirtColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShirtColor
-        fields = ["id", "name", "icon", "pictures", "detail"]
+        fields = ["id", "name", "color", "pictures", "detail"]
 
 class SuitPartDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model  = SuitPartDetail
-        fields = ["id","currency","price","composition","season","fitness","weight","description"]
+        fields = ["id","currency","price","composition","season","fineness","weight","description"]
 
 class SuitBuildSerializer(serializers.ModelSerializer):
     class Meta:

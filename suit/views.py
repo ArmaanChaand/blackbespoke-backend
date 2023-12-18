@@ -9,7 +9,8 @@ from .serializers import (
 
 # READ ALL
 def read_all_template(Model, ModelSerializer):
-    instances = Model.objects.filter(is_active=True)
+    # instances = Model.objects.filter(is_active=True)
+    instances = Model.objects.all()
     serializer = ModelSerializer(instances, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
