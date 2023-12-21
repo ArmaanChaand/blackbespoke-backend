@@ -13,9 +13,9 @@ class City(models.Model):
 
 class AddressDetail(models.Model):
     is_active = models.BooleanField(default=True)
-    address  = models.TextField(null=True, blank=True, default='TBA')
-    landmark = models.CharField(max_length=100, null=True, blank=True, default='TBA')
-    pin_code = models.CharField(max_length=50, null=True, blank=True, default='TBA')
+    address  = models.TextField(null=True, blank=True)
+    landmark = models.CharField(max_length=100, null=True, blank=True)
+    pin_code = models.CharField(max_length=50, null=True, blank=True)
     city     = models.ForeignKey(to=City, on_delete=models.SET_NULL, null=True, blank=True, related_name='address')
     customer = models.OneToOneField(to='user.Customer', on_delete=models.SET_NULL, null=True, blank=True, related_name='address')
 

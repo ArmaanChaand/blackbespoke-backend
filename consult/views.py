@@ -24,30 +24,30 @@ def appointment_read(request):
 
 
 @api_view(['GET'])
-def address_read_one(request, customer_id):
+def appointment_read_one(request, customer_id):
     if request.method == 'GET':
         try:
             customer_instance = Customer.objects.get(id=customer_id)
-            address =  Appointment.objects.filter(customer=customer_instance, is_active=True)
-            if address is not None:
-                serializer = AppointmentSerializer(address.first(), many=False)
+            appointment =  Appointment.objects.get(customer=customer_instance, is_active=True)
+            if appointment is not None:
+                serializer = AppointmentSerializer(appointment, many=False)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
-                return Response({'error': 'Zero addresses found'}, status=status.HTTP_404_NOT_FOUND)
+                return Response({'error': 'Zero appointments found'}, status=status.HTTP_404_NOT_FOUND)
 
-        except Customer.DoesNotExist:
-            return Response({'error': 'Customer not found'}, status=status.HTTP_404_NOT_FOUND)
+        except :
+            return Response({'error': 'appointment not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['PUT'])
 def appointment_update(request, pk):
     try:
-        address_detail = Appointment.objects.get(pk=pk)
+        appointment_detail = Appointment.objects.get(pk=pk)
     except Appointment.DoesNotExist:
         return Response({'error': 'Appointment not found'}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PUT':
-        serializer = AppointmentSerializer(address_detail, data=request.data)
+        serializer = AppointmentSerializer(appointment_detail, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)

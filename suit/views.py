@@ -67,6 +67,7 @@ def read_suit_build_all(request):
 @api_view(http_method_names=["POST"])
 def create_suit_build(request):
     serializer = SuitBuildSerializer(data=request.data)
+    
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
