@@ -1,5 +1,8 @@
 from collections.abc import Iterable
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from user.models import Customer
 from datetime import datetime, date, time
 from django.utils import timezone
 import uuid
@@ -7,6 +10,14 @@ import uuid
 
 def generate_short_uuid():
     return str(uuid.uuid4())[:6]
+
+@receiver(post_save, sender=Customer)
+def create_appointment(sender, instance, created, **kwargs):
+    """
+    Signal receiver function to create an Appointment instance when a Customer instance is saved.
+    """
+    if created:
+        Appointment.objects.create(customer=instance)
 
 class Appointment(models.Model):
     class appnt_types(models.TextChoices):
@@ -23,7 +34,7 @@ class Appointment(models.Model):
     date = models.DateField(null=True, blank=True)
     time = models.TimeField(null=True, blank=True)
     suit = models.OneToOneField(to='suit.SuitBuild', on_delete=models.SET_NULL, null=True, blank=True)
-    customer = models.OneToOneField(to='user.Customer', on_delete=models.SET_NULL, null=True, blank=True)
+    customer = models.OneToOneField(to='user.Customer', on_delete=models.SET_NULL, null=True, blank=True, related_name='my_consult')
     identifier = models.CharField(max_length=100, null=False, blank=False, unique=True, editable=False, default=generate_short_uuid,
                             error_messages={
                                      "unique": "Appointment with this identifier already exists."
@@ -51,3 +62,13 @@ class Appointment(models.Model):
 
     def __str__(self) -> str:
         return f"{self.appnt_type} • {self.customer} • {self.date}"
+    
+    def save(self, *args, **kwargs):
+        # If the 'suit' field is set, update 'appnt_type' to 'MEASUREMENT'
+        if self.suit and self.appnt_type != self.appnt_types.CHOICE_TWO:
+            self.appnt_type = self.appnt_types.CHOICE_TWO
+        if self.appnt_type == self.appnt_types.CHOICE_THREE:
+            self.suit = None
+        return super(Appointment, self).save(*args, **kwargs)
+    
+    

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Fabric, BlazerPattern, WaistcoatPattern, WaistcoatLapel, PantStyle, ShirtColor, SuitPartDetail, SuitBuild
+from .models import Fabric, BlazerPattern, WaistcoatPattern, WaistcoatLapel, PantStyle, ShirtColor, PartDetail, SuitBuild
 
 class FabricSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,9 +31,9 @@ class ShirtColorSerializer(serializers.ModelSerializer):
         model = ShirtColor
         fields = ["id", "name", "color", "pictures", "detail"]
 
-class SuitPartDetailSerializer(serializers.ModelSerializer):
+class PartDetailSerializer(serializers.ModelSerializer):
     class Meta:
-        model  = SuitPartDetail
+        model  = PartDetail
         fields = ["id","currency","price","composition","season","fineness","weight","description"]
 
 class SuitBuildSerializer(serializers.ModelSerializer):

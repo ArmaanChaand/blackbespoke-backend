@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import SuitBuild, Fabric, BlazerPattern, WaistcoatPattern,WaistcoatLapel, PantStyle, ShirtColor, SuitPartDetail
+from .models import SuitBuild, Fabric, BlazerPattern, WaistcoatPattern,WaistcoatLapel, PantStyle, ShirtColor, PartDetail
 # Register your models here.
-admin.site.register(SuitPartDetail)
+admin.site.register(PartDetail)
 admin.site.register(Fabric)
 admin.site.register(BlazerPattern)
 admin.site.register(WaistcoatPattern)

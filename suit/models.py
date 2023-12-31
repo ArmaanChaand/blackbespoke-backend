@@ -2,7 +2,7 @@ from django.db import models
 from utils.validators import only_svg_png_images
 # Create your models here.
 
-class SuitPartDetail(models.Model):
+class PartDetail(models.Model):
     is_active   = models.BooleanField(default=True)
     class currencies(models.TextChoices):
         CHOICE_ONE = 'INR', 'INR'
@@ -28,7 +28,7 @@ class Fabric(models.Model):
     name = models.CharField(max_length=150, null=True, blank=True)
     icon = models.ImageField(upload_to='images/suit/', null=True, blank=True)
     pictures = models.ManyToManyField(to='home.Pictures', related_name='fabric_pics', blank=True)
-    detail = models.ForeignKey(to=SuitPartDetail, on_delete=models.SET_NULL, null=True, blank=True)
+    detail = models.ForeignKey(to=PartDetail, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -39,7 +39,7 @@ class BlazerPattern(models.Model):
     description = models.TextField(null=True, blank=True)
     icon = models.FileField(upload_to='images/suit/', validators=[only_svg_png_images])
     pictures = models.ManyToManyField(to='home.Pictures', related_name='blazer_pics', blank=True)
-    detail = models.ForeignKey(to=SuitPartDetail, on_delete=models.SET_NULL, null=True, blank=True)
+    detail = models.ForeignKey(to=PartDetail, on_delete=models.SET_NULL, null=True, blank=True)
     
     def __str__(self) -> str:
         return self.name
@@ -51,7 +51,7 @@ class WaistcoatPattern(models.Model):
     description = models.TextField(null=True, blank=True)
     icon = models.FileField(upload_to='images/suit/', validators=[only_svg_png_images])
     pictures = models.ManyToManyField(to='home.Pictures', related_name='wcoat_patt_pics', blank=True)
-    detail = models.ForeignKey(to=SuitPartDetail, on_delete=models.SET_NULL, null=True, blank=True)
+    detail = models.ForeignKey(to=PartDetail, on_delete=models.SET_NULL, null=True, blank=True)
     
     def __str__(self) -> str:
         return self.name
@@ -62,7 +62,7 @@ class WaistcoatLapel(models.Model):
     description = models.TextField(null=True, blank=True)
     icon = models.FileField(upload_to='images/suit/', validators=[only_svg_png_images])
     pictures = models.ManyToManyField(to='home.Pictures', related_name='wcoat_lapel_pics', blank=True)
-    detail = models.ForeignKey(to=SuitPartDetail, on_delete=models.SET_NULL, null=True, blank=True)
+    detail = models.ForeignKey(to=PartDetail, on_delete=models.SET_NULL, null=True, blank=True)
     
     def __str__(self) -> str:
         return self.name
@@ -73,7 +73,7 @@ class PantStyle(models.Model):
     description = models.TextField(null=True, blank=True)
     icon = models.FileField(upload_to='images/suit/', validators=[only_svg_png_images])
     pictures = models.ManyToManyField(to='home.Pictures', related_name='pant_pics', blank=True)
-    detail = models.ForeignKey(to=SuitPartDetail, on_delete=models.SET_NULL, null=True, blank=True)
+    detail = models.ForeignKey(to=PartDetail, on_delete=models.SET_NULL, null=True, blank=True)
     
     def __str__(self) -> str:
         return self.name
@@ -83,7 +83,7 @@ class ShirtColor(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     color = models.CharField(max_length=50, null=True, blank=True)
     pictures = models.ManyToManyField(to='home.Pictures', related_name='shirt_pics', blank=True)
-    detail = models.ForeignKey(to=SuitPartDetail, on_delete=models.SET_NULL, null=True, blank=True)
+    detail = models.ForeignKey(to=PartDetail, on_delete=models.SET_NULL, null=True, blank=True)
     
     def __str__(self) -> str:
         return f"{self.name} • {self.color}"

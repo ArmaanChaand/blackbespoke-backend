@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
@@ -15,3 +16,7 @@ class Customer(models.Model):
 
     def __str__(self) -> str:
         return self.email
+    
+    def save(self, *args, **kwargs):
+        self.full_name = self.full_name.title()
+        super(Customer, self).save(*args, **kwargs)

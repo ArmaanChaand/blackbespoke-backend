@@ -28,3 +28,13 @@ class Pictures(models.Model):
 
     def __str__(self) -> str:
         return self.description
+
+class Testimonials(models.Model):
+    is_active   = models.BooleanField(default=True)
+    client_name = models.CharField(max_length=100, null=False, blank=False)
+    testimonial = models.TextField(null=False, blank=False)
+    picture = models.ImageField(upload_to='images/testimonials/', null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.client_name
+    

@@ -1,12 +1,12 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .models import Fabric, BlazerPattern, WaistcoatPattern, WaistcoatLapel , PantStyle, ShirtColor, SuitPartDetail, SuitBuild
+from .models import Fabric, BlazerPattern, WaistcoatPattern, WaistcoatLapel , PantStyle, ShirtColor, PartDetail, SuitBuild
 from .serializers import (
     FabricSerializer, BlazerPatternSerializer,WaistcoatPatternSerializer,WaistcoatLapelSerializer,
     PantStyleSerializer, ShirtColorSerializer,
-    SuitPartDetailSerializer, SuitBuildSerializer)
-
+    PartDetailSerializer, SuitBuildSerializer)
+from consult.models import Appointment
 # READ ALL
 def read_all_template(Model, ModelSerializer):
     # instances = Model.objects.filter(is_active=True)
@@ -45,8 +45,8 @@ def read_shirt_color_all(request):
 @api_view(http_method_names=["GET"])
 def read_suit_part_detail_one(request, detail_id):
     try:
-        suit_part_detail = SuitPartDetail.objects.get(id=detail_id)
-        serializer = SuitPartDetailSerializer(suit_part_detail)
+        suit_part_detail = PartDetail.objects.get(id=detail_id)
+        serializer = PartDetailSerializer(suit_part_detail)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except:
         return Response({"error": "Suit part detail not found"}, status=status.HTTP_404_NOT_FOUND)
@@ -66,10 +66,17 @@ def read_suit_build_all(request):
 
 @api_view(http_method_names=["POST"])
 def create_suit_build(request):
-    serializer = SuitBuildSerializer(data=request.data)
-    
+    data = request.data
+    appointment_id = data['appointment']
+    try:
+        appointment = Appointment.objects.get(id=appointment_id)        
+    except:
+        return Response({"error": "some error ocurred"}, status=status.HTTP_400_BAD_REQUEST)
+    serializer = SuitBuildSerializer(data=data)
     if serializer.is_valid():
-        serializer.save()
+        suit = serializer.save()
+        appointment.suit = suit
+        appointment.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

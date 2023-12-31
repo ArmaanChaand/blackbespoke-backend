@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .models import City, AddressDetail, Pictures
-from .serializers import CitySerializer, AddressDetailSerializer, PictureSerializer
+from .models import City, AddressDetail, Pictures, Testimonials
+from .serializers import CitySerializer, AddressDetailSerializer, PictureSerializer, TestimonialsSerializer
 from user.models import Customer
 
 @api_view(['GET'])
@@ -10,6 +10,13 @@ def city_read(request):
     if request.method == 'GET':
         cities = City.objects.filter(is_active=True)
         serializer = CitySerializer(cities, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def testimonials_read_all(request):
+    if request.method == 'GET':
+        testimonials = Testimonials.objects.filter(is_active=True)
+        serializer = TestimonialsSerializer(testimonials, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
@@ -63,7 +70,7 @@ def address_update(request, pk):
         return Response({'error': 'AddressDetail not found'}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PUT':
-        serializer = AddressDetailSerializer(address_detail, data=request.data)
+        serializer = AddressDetailSerializer(instance=address_detail, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
